@@ -2,7 +2,7 @@
 
 ## Deep Learning 深度學習
 
-**Try to use GitHub in the file ForTest**
+**Try to use GitHub in the Folder ForTest**
 
 **車牌辨識**
 
