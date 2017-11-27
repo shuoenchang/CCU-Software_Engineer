@@ -1,4 +1,4 @@
-om tensorflow.examples.tutorials.mnist import input_data
+from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 import tensorflow as tf
@@ -6,11 +6,17 @@ sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32, [None, 784])   # x is the value for each pixel
 W = tf.Variable(tf.zeros([784, 10]))    # Weight for each pixel
 b = tf.Variable(tf.zeros([10]))         # bias
+
+#定義演算法公式
 y = tf.nn.softmax(tf.matmul(x, W) + b)        # y = softmax(Wx+b)
 y_ = tf.placeholder(tf.float32, [None, 10])   # y' for the real label
+
+#定義loss function和選擇最佳化模組
 cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y),           # cross_entropy as
                                               reduction_indices=[1]))   # loss function
 train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy) # use GradientDescentOptimizer with rate is 0.5
+
+#訓練步驟
 tf.global_variables_initializer().run()   # initial variables
 for i in range(1000):   # training step 1000 times
   batch_xs, batch_ys = mnist.train.next_batch(100)  # random select 100 data for training

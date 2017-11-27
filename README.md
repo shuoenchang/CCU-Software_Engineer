@@ -14,3 +14,9 @@
   - [Coursera《深度学习》课程笔记](https://zhuanlan.zhihu.com/p/29017066)
   
 2.[Google Drive](https://drive.google.com/drive/folders/0AJwlQ0rpqMFIUk9PVA)
+
+3.訓練步驟
+  - 定義演算法公式
+  - 定義loss function和選擇最佳化模組
+  - 反覆運算，進行訓練
+  - 準確率評測
