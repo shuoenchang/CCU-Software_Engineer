@@ -63,8 +63,8 @@ def code_to_vec(p, code):
 def read_data(img_glob):
     for fname in sorted(glob.glob(img_glob)):
         im = cv2.imread(fname)[:, :, 0].astype(numpy.float32) / 255.
-        code = fname.split("/")[1][9:16]
-        p = fname.split("/")[1][17] == '1'
+        code = fname.split("/")[1][9:15]
+        p = fname.split("/")[1][16] == '1'
         yield im, code_to_vec(p, code)
 
 
@@ -130,7 +130,7 @@ def get_loss(y, y_):
                                                      [-1, len(common.CHARS)]),
                                           labels=tf.reshape(y_[:, 1:],
                                                      [-1, len(common.CHARS)]))
-    digits_loss = tf.reshape(digits_loss, [-1, 7])
+    digits_loss = tf.reshape(digits_loss, [-1, 6])
     digits_loss = tf.reduce_sum(digits_loss, 1)
     digits_loss *= (y_[:, 0] != 0)
     digits_loss = tf.reduce_sum(digits_loss)
@@ -138,7 +138,7 @@ def get_loss(y, y_):
     # Calculate the loss from presence indicator being wrong.
     presence_loss = tf.nn.sigmoid_cross_entropy_with_logits(
                                                           logits=y[:, :1], labels=y_[:, :1])
-    presence_loss = 7 * tf.reduce_sum(presence_loss)
+    presence_loss = 6 * tf.reduce_sum(presence_loss)
 
     return digits_loss, presence_loss, digits_loss + presence_loss
 
@@ -169,13 +169,13 @@ def train(learn_rate, report_steps, batch_size, initial_weights=None):
     """
     x, y, params = model.get_training_model()
 
-    y_ = tf.placeholder(tf.float32, [None, 7 * len(common.CHARS) + 1])
+    y_ = tf.placeholder(tf.float32, [None, 6 * len(common.CHARS) + 1])
 
     digits_loss, presence_loss, loss = get_loss(y, y_)
     train_step = tf.train.AdamOptimizer(learn_rate).minimize(loss)
 
-    best = tf.argmax(tf.reshape(y[:, 1:], [-1, 7, len(common.CHARS)]), 2)
-    correct = tf.argmax(tf.reshape(y_[:, 1:], [-1, 7, len(common.CHARS)]), 2)
+    best = tf.argmax(tf.reshape(y[:, 1:], [-1, 6, len(common.CHARS)]), 2)
+    correct = tf.argmax(tf.reshape(y_[:, 1:], [-1, 6, len(common.CHARS)]), 2)
 
     if initial_weights is not None:
         assert len(params) == len(initial_weights)

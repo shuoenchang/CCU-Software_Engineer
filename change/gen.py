@@ -158,14 +158,13 @@ def make_affine_transform(from_shape, to_shape,
 
 
 def generate_code():
-    return "{}{}{} {}{}{}{}".format(
-        random.choice(common.LETTERS),
-        random.choice(common.LETTERS),
-        random.choice(common.LETTERS),
-        random.choice(common.DIGITS),
-        random.choice(common.DIGITS),
-        random.choice(common.DIGITS),
-        random.choice(common.DIGITS),)
+    return "{}{} {}{}{}{}".format(
+        random.choice(common.CHARS),
+        random.choice(common.CHARS),
+        random.choice(common.CHARS),
+        random.choice(common.CHARS),
+        random.choice(common.CHARS),
+        random.choice(common.CHARS),)
 
 
 def rounded_rect(shape, radius):
